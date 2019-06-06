@@ -1,0 +1,8 @@
+<h3>{{lesson.title}}</h3>
+<ng-container *ngFor="let lessonItem of lesson.items"
+              [ngSwitch]="lessonItem.type"
+>
+  <app-text *ngSwitchCase="'text'" [text]="lessonItem"></app-text>
+  <app-image *ngSwitchCase="'image'" [image]="lessonItem"></app-image>
+  <app-task *ngSwitchCase="'task'" [task]="lessonItem"></app-task>
+</ng-container>
