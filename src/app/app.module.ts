@@ -13,6 +13,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./services/auth.guard";
+import { MatSidenavModule, MatToolbarModule } from "@angular/material";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AceEditorModule } from "ng2-ace-editor";
 
 @NgModule({
   declarations: [
@@ -25,10 +28,14 @@ import { AuthGuard } from "./services/auth.guard";
     LoginComponent
   ],
   imports: [
+    AceEditorModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatSidenavModule
   ],
   providers: [
     AuthService,

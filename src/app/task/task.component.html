@@ -1,6 +1,13 @@
 <p>
   {{task.task}}
 </p>
-<textarea #codeArea>
-
-</textarea>
+<ace-editor [(text)]="task.code"
+            mode="javascript"
+            style="height:150px"
+>
+</ace-editor>
+<button [disabled]="!task.code"
+        (click)="run()"
+>
+  Submit
+</button>

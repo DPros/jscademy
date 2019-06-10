@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TaskModel } from "../models";
 
 @Component({
@@ -6,7 +6,7 @@ import { TaskModel } from "../models";
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.less']
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
 
   @Input()
   task: TaskModel;
@@ -17,7 +17,7 @@ export class TaskComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
+  run() {
+    alert(eval(this.task.code) === this.task.solution);
   }
-
 }

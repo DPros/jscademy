@@ -1,4 +1,10 @@
-<h1>{{section.title}}</h1>
-<app-lesson *ngFor="let lesson of section.lessons"
-            [lesson]="lesson"
-></app-lesson>
+<ng-container *ngIf="section$ | async as section else sectionNotFound">
+  <h1>{{section.title}}</h1>
+  <app-lesson *ngFor="let lesson of (section).lessons"
+              [lesson]="lesson"
+  ></app-lesson>
+</ng-container>
+
+<ng-template #sectionNotFound>
+  Requested lesson not found. <a routerLink="\">Back to main page</a>
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LessonModel } from "../models";
 
 @Component({
@@ -6,15 +6,11 @@ import { LessonModel } from "../models";
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.less']
 })
-export class LessonComponent implements OnInit {
+export class LessonComponent {
 
   @Input()
   lesson: LessonModel;
 
   constructor() {
-  }
-
-  ngOnInit() {
-    console.log(this.lesson);
   }
 }

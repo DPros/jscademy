@@ -21,7 +21,7 @@ export class AuthService {
     }).subscribe(response => {
       if (response) {
         sessionStorage.setItem('token', response.token);
-        this.router.navigate([this.route.snapshot.paramMap['returnUrl']]);
+        this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
       } else {
         alert("Authentication failed.")
       }
