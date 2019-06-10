@@ -30,3 +30,4 @@ interface LessonItemInterface {
 
 export type LessonItem = TextModel | TaskModel | ImageModel;
 
+export type Timestamp = number;

@@ -8,6 +8,11 @@ import { TextComponent } from './text/text.component';
 import { TaskComponent } from './task/task.component';
 import { ImageComponent } from './image/image.component';
 import { LessonComponent } from './lesson/lesson.component';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { AuthService } from "./services/auth.service";
+import { AuthGuard } from "./services/auth.guard";
 
 @NgModule({
   declarations: [
@@ -16,13 +21,20 @@ import { LessonComponent } from './lesson/lesson.component';
     TextComponent,
     TaskComponent,
     ImageComponent,
-    LessonComponent
+    LessonComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
