@@ -13,9 +13,11 @@
           "url": "assets/cat.jpg"
         },
         {
+          "taskId": 1,
           "type": "task",
-          "task": "TODOTODODO",
-          "solution": ""
+          "code": "function () {}",
+          "task": "print 2",
+          "solution": "2"
         }
       ]
     }

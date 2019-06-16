@@ -1,0 +1,19 @@
+<p [class.correct]="correct$ | async">
+  {{task.task}}
+</p>
+<ng-container *ngIf="solving else solve">
+  <ace-editor [(text)]="task.code"
+              mode="javascript"
+              style="height:150px"
+  >
+  </ace-editor>
+  <button [disabled]="!task.code"
+          (click)="run()"
+  >
+    Submit
+  </button>
+</ng-container>
+
+<ng-template #solve>
+  <button (click)="startSolving()">Solve</button>
+</ng-template>

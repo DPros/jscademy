@@ -1,18 +1,4 @@
 <mat-toolbar>
   <span>JScademy</span>
 </mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav mode="side"
-               [opened]="true"
-               [fixedInViewport]="true"
-               [fixedTopGap]="64"
-  >
-    <ul>
-      <li routerLink="/study/1">Part 1</li>
-      <li routerLink="/study/2">Part 2</li>
-    </ul>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<router-outlet></router-outlet>

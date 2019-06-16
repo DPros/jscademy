@@ -4,6 +4,8 @@ import { HttpClient } from "@angular/common/http";
 import { Timestamp } from "../models";
 import { ActivatedRoute, Router } from "@angular/router";
 
+const TOKEN = 'token';
+
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
@@ -20,7 +22,7 @@ export class AuthService {
       password
     }).subscribe(response => {
       if (response) {
-        sessionStorage.setItem('token', response.token);
+        sessionStorage.setItem(TOKEN, response.token);
         this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
       } else {
         alert("Authentication failed.")
@@ -29,8 +31,12 @@ export class AuthService {
   }
 
   logout() {
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem(TOKEN);
     this.router.navigate(['']);
+  }
+
+  getToken() {
+    return sessionStorage.getItem(TOKEN);
   }
 }
 

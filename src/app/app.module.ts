@@ -1,45 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { SectionComponent } from './section/section.component';
-import { TextComponent } from './text/text.component';
-import { TaskComponent } from './task/task.component';
-import { ImageComponent } from './image/image.component';
-import { LessonComponent } from './lesson/lesson.component';
-import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { AuthService } from "./services/auth.service";
-import { AuthGuard } from "./services/auth.guard";
-import { MatSidenavModule, MatToolbarModule } from "@angular/material";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { AceEditorModule } from "ng2-ace-editor";
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './login/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthService} from "./services/auth.service";
+import {AuthGuard} from "./services/auth.guard";
+import {MatToolbarModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {StudyModule} from "./study/study.module";
+import {TokenInterceptor} from "./services/token-interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
-    SectionComponent,
-    TextComponent,
-    TaskComponent,
-    ImageComponent,
-    LessonComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
-    AceEditorModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
     MatToolbarModule,
-    MatSidenavModule
+    StudyModule,
   ],
   providers: [
     AuthService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

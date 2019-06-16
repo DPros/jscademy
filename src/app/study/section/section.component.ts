@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SectionModel } from "../models";
+import { SectionModel } from "../../models";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { pluck, switchMap } from "rxjs/operators";
-import { StudyService } from "../services/study.service";
+import { MaterialsService } from "../../services/materials.service";
 
 @Component({
   selector: 'app-section',
@@ -16,13 +16,13 @@ export class SectionComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private studyService: StudyService
+    private studyService: MaterialsService
   ) {
   }
 
   ngOnInit() {
     this.section$ = this.route.params.pipe(
-      pluck('id'),
+      pluck('sectionId'),
       switchMap((id: string) => this.studyService.getSection(id))
     )
   }

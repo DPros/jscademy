@@ -14,6 +14,7 @@ export interface TextModel extends LessonItemInterface {
 }
 
 export interface TaskModel extends LessonItemInterface {
+  taskId: number;
   type: "task";
   task: string;
   code?: string;

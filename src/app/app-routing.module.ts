@@ -1,18 +1,16 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SectionComponent } from "./section/section.component";
-import { LoginComponent } from "./login/login.component";
-import { AuthGuard } from "./services/auth.guard";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
   {path: "auth", component: LoginComponent},
-  // {path: "study/:id", component: SectionComponent, canActivate: [AuthGuard]},
-  {path: "study/:id", component: SectionComponent},
-  {path: "**", redirectTo: "auth"}
+  {path: "", redirectTo: "/study", pathMatch: "full"},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,
+    // {enableTracing: true}
+    )],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
