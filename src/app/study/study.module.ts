@@ -11,6 +11,7 @@ import {StudyComponent} from "./study.component";
 import {AceEditorModule} from "ng2-ace-editor";
 import {AuthGuard} from "../services/auth.guard";
 import {TaskService} from "./task.service";
+import { CodeComponent } from './code/code.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
     TaskComponent,
     TextComponent,
     StudyComponent,
+    CodeComponent,
   ],
   imports: [
     AceEditorModule,

@@ -11,7 +11,7 @@ import {AuthGuard} from "./services/auth.guard";
 import {MatToolbarModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {StudyModule} from "./study/study.module";
-import {TokenInterceptor} from "./services/token-interceptor";
+import {TokenEnricherInterceptor} from "./services/token-enricher-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import {TokenInterceptor} from "./services/token-interceptor";
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
+      useClass: TokenEnricherInterceptor,
       multi: true
     }
   ],

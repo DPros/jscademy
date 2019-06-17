@@ -13,6 +13,11 @@ export interface TextModel extends LessonItemInterface {
   text: string;
 }
 
+export interface CodeModel extends LessonItemInterface {
+  type: "code";
+  code: string;
+}
+
 export interface TaskModel extends LessonItemInterface {
   taskId: number;
   type: "task";
@@ -23,7 +28,7 @@ export interface TaskModel extends LessonItemInterface {
 
 export interface ImageModel extends LessonItemInterface {
   type: "image";
-  url: string;
+  name: string;
 }
 
 interface LessonItemInterface {

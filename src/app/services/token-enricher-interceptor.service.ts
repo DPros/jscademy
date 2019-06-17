@@ -4,17 +4,18 @@ import {AuthService} from "./auth.service";
 import {Observable} from "rxjs";
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+export class TokenEnricherInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    request = request.clone({
-      setHeaders: {
-        'auth_token': this.auth.getToken()
-      }
-    });
-    return next.handle(request);
+    const token = this.auth.getToken();
+    return next.handle(token
+      ? request.clone({
+        setHeaders: {
+          'auth_token': this.auth.getToken()
+        }
+      })
+      : request);
   }
 }
