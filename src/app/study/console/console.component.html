@@ -1,3 +1,14 @@
-<p>
-  console works!
-</p>
+
+<div class="console-wrapper">
+  <div class="console-container">
+    <div *ngFor="let d of data; let f = first">
+      <ng-container *ngIf="d">
+        <span class="caret"
+              [class.last-curret]="d===f"
+        > > </span> {{d}}
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+
