@@ -2,9 +2,9 @@
 <ng-container *ngFor="let lessonItem of lesson.items"
               [ngSwitch]="lessonItem.type"
 >
-  <app-text *ngSwitchCase="'text'" [text]="lessonItem"></app-text>
-  <app-image *ngSwitchCase="'image'" [image]="lessonItem"></app-image>
-  <app-code *ngSwitchCase="'code'" [code]="lessonItem"></app-code>
-  <app-task *ngSwitchCase="'task'" [task]="lessonItem"></app-task>
-  <div *ngSwitchDefault>{{lessonItem | json}}</div>
+  <app-text *ngSwitchCase="'text'" [text]="lessonItem" class="lesson-item"></app-text>
+  <app-image *ngSwitchCase="'image'" [image]="lessonItem" class="lesson-item"></app-image>
+  <app-code *ngSwitchCase="'code'" [code]="lessonItem" class="lesson-item"></app-code>
+  <app-task *ngSwitchCase="'task'" [task]="lessonItem" class="lesson-item"></app-task>
+  <div *ngSwitchDefault class="lesson-item">{{lessonItem | json}}</div>
 </ng-container>

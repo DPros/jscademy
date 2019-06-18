@@ -1,0 +1,62 @@
+:host{
+  display: flex;
+  height: 100%;
+}
+
+.sidenav-container{
+  height: 100%;
+  width: 100%;
+}
+
+.sidenav{
+  padding: 0 30px;
+  flex: 0 1 20%;
+  max-width: 250px;
+}
+
+.book-container{
+  display: flex;
+  flex-flow: row wrap;
+  flex: 10 5 80%;
+  min-width: 600px;
+  height: 100%;
+  .book-content{
+    box-sizing: content-box;
+    flex: 5 0 75%;
+    position: relative;
+
+    .book-container--inner{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 20px 12% 60px 12%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+
+  .developer-panel{
+    @border-color: #cccc;
+    flex: 1 0 25%;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+
+    .task-container{
+      flex: 0 1 15%;
+      border-bottom: thin solid @border-color;
+    }
+
+
+    .code-editor-container{
+      flex: 1 4 60%;
+      border-bottom: thin solid @border-color;
+    }
+
+    .console-container{
+      flex: 0 1 25%;
+    }
+  }
+}

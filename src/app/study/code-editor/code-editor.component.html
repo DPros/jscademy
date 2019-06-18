@@ -1,0 +1,11 @@
+<div class="code-wrapper">
+  <ace-editor [(text)]="code"
+              mode="javascript"
+              class="code-editor"
+              [theme]="''"
+  >
+  </ace-editor>
+  <button mat-flat-button color="primary" class="run-button" (click)="run()">
+    Run
+  </button>
+</div>
