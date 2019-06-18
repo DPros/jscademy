@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ConsoleService} from '../../services/console.service';
+import {skip} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-console',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsoleComponent implements OnInit {
 
-  constructor() { }
+  data = [];
+
+  constructor(private consoleService: ConsoleService) { }
 
   ngOnInit() {
+    this.consoleService.$result.pipe(skip(1)).subscribe(result => {
+      if (result === undefined)
+        result = 'undefined';
+      if (result === null)
+        result = 'null';
+      this.data.unshift(result);
+    });
   }
 
 }

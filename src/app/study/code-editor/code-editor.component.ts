@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConsoleService} from '../../services/console.service';
-import {skip, skipWhile} from 'rxjs/internal/operators';
+import {skipWhile} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-code-editor',
@@ -42,4 +42,11 @@ export class CodeEditorComponent implements OnInit {
     this.taskId = null;
   }
 
+  cancelTask(): void {
+    this.save();
+  }
+
+  evaluate(): void {
+    this.consoleService.save(this.code, this.taskId, true);
+  }
 }

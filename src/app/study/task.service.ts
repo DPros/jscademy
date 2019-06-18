@@ -27,6 +27,11 @@ export class TaskService {
     );
   }
 
+  saveTaskCode(taskId: number, code: string): Observable<any> {
+    const data: SaveTaskModel = {taskId, code};
+    return this.http.post(task, data);
+  }
+
   getTask(id: string) {
     return this.http.get<TaskResultModel>(task, {params: new HttpParams().append("taskId", id)})
   }
