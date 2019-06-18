@@ -8,6 +8,9 @@ import { AuthService } from "../services/auth.service";
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent {
+  hidePassword = true;
+  showLoginFailed = false;
+
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
@@ -20,6 +23,15 @@ export class LoginComponent {
 
   login() {
     const {username, password} = this.form.value;
-    this.authService.login(username, password);
+    this.authService.login(username, password)
+      .then(success => {
+        this.showLoginFailed = !success;
+      });
+  }
+
+  resetFormAfterLoginFail(): void {
+    if (this.showLoginFailed) {
+      this.showLoginFailed = false;
+    }
   }
 }

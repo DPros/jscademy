@@ -16,17 +16,24 @@ export class AuthService {
   ) {
   }
 
-  login(username: string, password: string) {
-    this.http.post<AuthResponse>(auth, {
-      username,
-      password
-    }).subscribe(response => {
-      if (response) {
-        sessionStorage.setItem(TOKEN, response.token);
-        this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
-      } else {
-        alert("Authentication failed.")
-      }
+  login(username: string, password: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+        this.http.post<AuthResponse>(auth, {
+          username,
+          password
+        })
+          .subscribe(response => {
+            if (response) {
+              sessionStorage.setItem(TOKEN, response.token);
+              this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
+              resolve(true);
+            } else {
+              alert('Authentication failed.');
+              resolve(false);
+            }
+      }, () => {
+          resolve(false);
+      });
     });
   }
 

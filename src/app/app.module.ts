@@ -8,11 +8,11 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthService} from "./services/auth.service";
 import {AuthGuard} from "./services/auth.guard";
-import {MatToolbarModule} from "@angular/material";
+import {MatButtonModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {StudyModule} from "./study/study.module";
 import {TokenEnricherInterceptor} from "./services/token-enricher-interceptor.service";
-
+import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +26,10 @@ import {TokenEnricherInterceptor} from "./services/token-enricher-interceptor.se
     ReactiveFormsModule,
     MatToolbarModule,
     StudyModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule
   ],
   providers: [
     AuthService,
