@@ -1,5 +1,13 @@
-<ace-editor [(text)]="code.code"
-            [readOnly]="true"
-            mode="javascript"
-            style="height:150px"
-></ace-editor>
+
+<div class="code-wrapper">
+  <div class="label">
+    Пример
+  </div>
+  <ace-editor [(text)]="code.code"
+              [readOnly]="true"
+              mode="javascript"
+              class="code-editor"
+              [theme]="''"
+  ></ace-editor>
+</div>
+

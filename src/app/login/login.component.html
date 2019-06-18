@@ -1,17 +1,28 @@
 <form [formGroup]="form">
-  <label>
-    Username
-    <input type="text" formControlName="username"/>
-  </label>
-  <label>
-    Password
-    <input type="password" formControlName="password"/>
-  </label>
-  <div>
-    <button [disabled]="!form.valid"
-            (click)="login()"
-    >
-      Login
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input [autofocus]="true"
+           matInput type="text" (focus)="resetFormAfterLoginFail()"
+           formControlName="username"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput
+           [type]="hidePassword ? 'password' : 'text'"
+           (focus)="resetFormAfterLoginFail()"
+           formControlName="password"/>
+    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" >
+      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-hint *ngIf="showLoginFailed" [ngStyle]="{color: 'red'}">
+      username or password is incorrect
+    </mat-hint>
+  </mat-form-field>
+  <div class="right">
+    <button mat-button color="primary"
+            [disabled]="!form.valid || showLoginFailed"
+            (click)="login()">
+      Log in
     </button>
   </div>
 </form>

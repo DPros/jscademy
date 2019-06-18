@@ -1,0 +1,19 @@
+<div class="code-wrapper">
+  <ace-editor [(text)]="code"
+              mode="javascript"
+              class="code-editor"
+              [theme]="''"
+  >
+  </ace-editor>
+  <button *ngIf="!taskId; else taskButtons" mat-flat-button color="primary" class="run-button" (click)="run()">
+    Run
+  </button>
+
+</div>
+
+<ng-template #taskButtons>
+  <div class="buttons-container run-button">
+    <button mat-flat-button (click)="cancelTask()">Cancel</button>
+    <button mat-flat-button (click)="evaluate()" color="primary">Evaluate</button>
+  </div>
+</ng-template>

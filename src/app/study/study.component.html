@@ -1,15 +1,25 @@
-<mat-sidenav-container>
+<mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side"
                [opened]="true"
                [fixedInViewport]="true"
                [fixedTopGap]="64"
+               class="sidenav"
   >
     <ul>
       <li routerLink="/study/3">Массивы</li>
       <li routerLink="/study/2">Part 2</li>
     </ul>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
+  <mat-sidenav-content class="book-container">
+    <div class="book-content">
+      <div class="book-container--inner">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="developer-panel">
+      <app-active-task class="task-container">task</app-active-task>
+      <app-code-editor class="code-editor-container">code-editor</app-code-editor>
+      <app-console class="console-container">console</app-console>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
