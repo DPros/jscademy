@@ -12,6 +12,7 @@ import {AceEditorModule} from "ng2-ace-editor";
 import {AuthGuard} from "../services/auth.guard";
 import {TaskService} from "./task.service";
 import { CodeComponent } from './code/code.component';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MatSidenavModule,
+    ScrollDispatchModule
   ],
   providers: [
     TaskService

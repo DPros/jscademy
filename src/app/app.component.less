@@ -1,5 +1,16 @@
 :host{
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 100vh;
+}
+
+.header{
+  height: 64px;
+}
+
+
+
+.page-wrapper{
+  @height: calc(~'100% - 64px');
+  height: @height;
+  max-height: @height;
 }
