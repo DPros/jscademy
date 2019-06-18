@@ -57,8 +57,10 @@ export class ConsoleService {
   }
 
   private isCorrect(code: string, solution: string): boolean {
-
-    return this.compute(code ) === solution;
+    const result = this.compute(code);
+    if (this.empty_string !== result)
+      this.result.next(result);
+    return  result === solution;
 
   }
 
@@ -78,7 +80,7 @@ export class ConsoleService {
     console.log = consoleLogFunction;
 
     const arr = code.split('\n');
-    if (arr[arr.length - 1].match(/\s+/)) {
+    if (arr[arr.length - 1].match(/\s+/) || arr[arr.length - 1] === '') {
       result = this.empty_string;
     }
 
