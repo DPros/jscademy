@@ -2,22 +2,20 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TaskModel} from '../models';
 import {TaskService} from '../study/task.service';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ConsoleService {
-  private readonly empty_string = '!%$empty';
   private task = new BehaviorSubject(null);
   private clear = new BehaviorSubject(null);
   private code = new BehaviorSubject('');
-  private result = new BehaviorSubject('');
+  private result = new BehaviorSubject([]);
   private oldCode = '';
 
   public readonly $clearTextEditor: Observable<any> = this.clear.asObservable();
   public readonly $code: Observable<string> = this.code.asObservable();
   public readonly $task: Observable<TaskModel> = this.task.asObservable();
-  public readonly $result: Observable<string> = this.result.asObservable();
+  public readonly $result: Observable<ConsoleMessage[]> = this.result.asObservable();
 
   constructor(private taskService: TaskService) {
 
@@ -25,16 +23,15 @@ export class ConsoleService {
 
 
   public runScript(code: string): void {
-    const result = this.compute(code);
-    if (this.empty_string !== result)
-      this.result.next(result);
+    const {messages} = this.compute(code);
+    this.result.next(messages);
   }
 
   public save(code: string, taskId: number = null, evaluate: boolean = null) {
 
     const task = this.task.getValue();
     if (task && taskId && task.taskId === taskId) {
-      if(evaluate){
+      if (evaluate) {
         const success = this.isCorrect(code, task.solution);
         this.taskService.saveTask(taskId, code, success);
       } else {
@@ -57,34 +54,53 @@ export class ConsoleService {
   }
 
   private isCorrect(code: string, solution: string): boolean {
-    const result = this.compute(code);
-    if (this.empty_string !== result)
-      this.result.next(result);
-    return  result === solution;
+    const {result, messages} = this.compute(code);
+    return  result === solution || solution === messages.map(x => x.value).join('\n');
 
   }
 
-  private compute(code: string): string {
-    let result = null;
+  private compute(code: string): ComputedResult {
+    if (!code.trim()) {
+      console.warn('empty code passed');
+      return ComputedResult.EMPTY;
+    }
+    const resultMessages = [];
     const consoleLogFunction = console.log;
+    const consoleErrorFunction = console.error;
+    let result;
+    let value;
     console.log = (x) => {
-      if (x) {
-        this.result.next(x);
-      }
+      resultMessages.unshift(new ConsoleMessage(x, ConsoleMessageType.LOG));
     };
-    try{
-      result = eval(code);
+
+    console.error = (e) => {
+      resultMessages.unshift(new ConsoleMessage(e, ConsoleMessageType.ERROR));
+    };
+
+    try {
+      value = eval(code.trim());
     } catch (e) {
-      console.error(e);
+    } finally {
+      if (resultMessages.length === 0 || resultMessages.length > 0 && resultMessages[0].type !== ConsoleMessageType.LOG) {
+        result = value;
+        resultMessages.unshift(new ConsoleMessage(result, ConsoleMessageType.RESULT));
+      }
     }
     console.log = consoleLogFunction;
-
-    const arr = code.split('\n');
-    if (arr[arr.length - 1].match(/\s+/) || arr[arr.length - 1] === '') {
-      result = this.empty_string;
-    }
-
-    return result;
+    console.error = consoleErrorFunction;
+    return new ComputedResult(result, resultMessages);
   }
 
+}
+
+class ComputedResult {
+  constructor(public result: string, public messages: ConsoleMessage[]) {}
+  static EMPTY = new ComputedResult(null, []);
+}
+
+export class ConsoleMessage {
+  constructor(public value: string, public type: ConsoleMessageType) {}
+}
+export enum ConsoleMessageType {
+  ERROR, LOG, WARN, RESULT
 }

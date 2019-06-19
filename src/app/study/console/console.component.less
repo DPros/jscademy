@@ -25,20 +25,29 @@
     overflow-y: auto;
     //padding-right: -27px; /* Increase/decrease this value for cross-browser compatibility */
     box-sizing: content-box;
-    div{
+    .output-per-run{
+      display: flex;
+      align-items: baseline;
 
-      color: whitesmoke;
 
       .caret{
         color: #cccc;
         font-size: 12px;
+        padding-right: 5px;
       }
 
-      .last-caret{
-        color: white;
+      .error{
+        color: red;
+      }
+
+      .log{
+        color: lightskyblue;
+      }
+
+      .result{
+        color: whitesmoke;
       }
     }
 
   }
 }
-
