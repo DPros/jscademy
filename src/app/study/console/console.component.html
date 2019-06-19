@@ -1,6 +1,12 @@
 
 <div class="console-wrapper">
   <div class="console-container">
+    <div class="output-per-run">
+      <div class="caret">
+        >
+      </div>
+      <input type="text" class="code-input" [value]="code" (input)="code = $event.target.value" #input (keydown)="run($event)" [autofocus]="true"/>
+    </div>
     <div *ngFor="let d of data" [ngSwitch]="d.type" class="output-per-run">
       <div class="caret">
         >

@@ -2,6 +2,7 @@
   display: block;
   position: relative;
   background-color: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
 }
 
 
@@ -9,26 +10,32 @@
 .console-wrapper{
   position: absolute;
   transform: rotate(180deg);
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  overflow: hidden;
-
+  top: 0;
+  left: -17px;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100%;
+  box-sizing: content-box;
+  padding-right: 1px;
   .console-container{
-    width: 100%;
+    box-sizing: padding-box;
+    padding: 0 10px;
     min-height: 100%;
     transform: rotate(180deg);
     display: flex;
     flex-direction: column-reverse;
     justify-content: flex-end;
-    overflow-y: auto;
-    //padding-right: -27px; /* Increase/decrease this value for cross-browser compatibility */
-    box-sizing: content-box;
+
     .output-per-run{
       display: flex;
       align-items: baseline;
+      padding-bottom: 3px;
 
+      &:last-child{
+        padding-top: 5px;
+      }
 
       .caret{
         color: #cccc;
@@ -47,7 +54,21 @@
       .result{
         color: whitesmoke;
       }
+
+      .code-input{
+        color: rgba(255, 165, 0, 0.85);
+        background-color: transparent;
+        border: none;
+        font-size: inherit;
+        font-family: inherit;
+        outline: none;
+        flex-grow: 1;
+      }
+
+
     }
+
+
 
   }
 }
