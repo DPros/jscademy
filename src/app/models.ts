@@ -16,14 +16,22 @@ export interface TextModel extends LessonItemInterface {
 export interface CodeModel extends LessonItemInterface {
   type: "code";
   code: string;
+  items: CodeItem[];
+}
+
+export interface CodeItem {
+  code: string;
+  result?: string;
 }
 
 export interface TaskModel extends LessonItemInterface {
   taskId: number;
   type: "task";
   task: string;
+  initialCode?: string;
   code?: string;
   solution: any;
+  solutionCode?: any;
 }
 
 export interface ImageModel extends LessonItemInterface {
