@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {progress, task} from '../routes';
-import {BehaviorSubject, from, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, from, Observable, of, ReplaySubject, Subject} from 'rxjs';
 import {pluck, scan, shareReplay, tap} from 'rxjs/operators';
 import {distinctUntilChanged, filter, find, first, map, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
 import {TaskModel} from '../models';
@@ -15,10 +15,7 @@ export class TaskService {
     shareReplay(1)
   );
   private tasksSubject = new BehaviorSubject<TaskModel[]>([]);
-  private $tasks: Observable<TaskModel[]> = this.tasksSubject.asObservable().pipe(
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
+  private $tasks: Observable<TaskModel[]> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -73,7 +70,8 @@ export class TaskService {
 
         return local;
       }),
-      tap((x: TaskModel) => this.addTask(x))
+      toArray(),
+      tap(tasks => this.tasksSubject.next(tasks))
     );
   }
 
@@ -82,8 +80,7 @@ export class TaskService {
       .pipe(
         map( (res: TaskResultModel) => {
           return {...res, taskId: id};
-        }),
-        tap(x => console.log(x))
+        })
       );
   }
 

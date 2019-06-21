@@ -25,6 +25,9 @@ export class CodeEditorComponent implements OnInit {
         if (task) {
           this.code = task.code;
           this.taskId = task.taskId;
+        } else {
+          this.code = '';
+          this.taskId = null;
         }
       });
   }
@@ -46,5 +49,6 @@ export class CodeEditorComponent implements OnInit {
 
   evaluate(): void {
     this.consoleService.save(this.code, this.taskId, true);
+    this.consoleService.cancelTask();
   }
 }
