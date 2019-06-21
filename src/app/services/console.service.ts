@@ -35,7 +35,7 @@ export class ConsoleService {
         const success = this.isCorrect(code, task.solution);
         this.taskService.saveTask(taskId, code, success);
       } else {
-        this.taskService.saveTaskCode(taskId, code);
+        this.taskService.saveTask(taskId, code);
         this.code.next(this.oldCode);
       }
 

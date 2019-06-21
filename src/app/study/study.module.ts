@@ -16,7 +16,8 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { ConsoleComponent } from './console/console.component';
 import { ActiveTaskComponent } from './active-task/active-task.component';
-
+import { Task2Component } from './task2/task2.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 const routes: Routes = [
   {
     path: "study", component: StudyComponent, canActivate: [AuthGuard], children: [
@@ -37,6 +38,7 @@ const routes: Routes = [
     CodeEditorComponent,
     ConsoleComponent,
     ActiveTaskComponent,
+    Task2Component,
   ],
   imports: [
     AceEditorModule,
@@ -44,7 +46,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatSidenavModule,
     ScrollDispatchModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule
   ],
   providers: [
     TaskService

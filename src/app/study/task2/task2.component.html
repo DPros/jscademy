@@ -1,0 +1,43 @@
+<div class="task-label">
+  Задание
+</div>
+<div class="task-description" [class.blur]="state !== State.NEW">
+  {{task.task}}
+</div>
+<div class="status-info" [class.completed]="state !== State.NEW">
+  <div class="wrapper" [ngSwitch]="state" *ngIf="state !== State.NEW; else runButton">
+    <div *ngSwitchCase="State.SUCCEED" class="inner">
+      <div class="result">
+        <button mat-flat-button class="success">Passed</button>
+      </div>
+      <div class="points">
+        1 / 1
+      </div>
+    </div>
+    <div *ngSwitchCase="State.FAILED" class="inner">
+      <div class="result">
+        <button mat-flat-button color="warn">Failed</button>
+      </div>
+      <div class="points">
+        0 / 1
+      </div>
+    </div>
+    <div *ngSwitchCase="State.ACTIVE" class="inner">
+      <div class="result">
+        <button mat-flat-button color="accent">In progress</button>
+      </div>
+    </div>
+    <div *ngSwitchCase="State.PAUSED" class="inner">
+      <div class="result">
+        <button mat-flat-button color="primary" (click)="resume()">Resume</button>
+      </div>
+    </div>
+    <div class="blurred-background">
+    </div>
+  </div>
+</div>
+<mat-progress-bar mode="indeterminate" class="progress-bar" *ngIf="state === State.ACTIVE"></mat-progress-bar>
+
+<ng-template #runButton>
+    <button mat-flat-button color="primary" (click)="run()">Start</button>
+</ng-template>

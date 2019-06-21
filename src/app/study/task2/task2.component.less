@@ -1,0 +1,96 @@
+
+
+:host{
+  @color: orange;
+  display: block;
+  position: relative;
+  //max-width: 400px;
+  padding: 25px;
+  border: thin solid @color;
+
+
+  .task-label{
+    position: absolute;
+    top: -11px;
+    left: 10px;
+    color: @color;
+    font-size: 16px;
+    background-color: #fafafa;
+
+  }
+
+
+  .task-description{
+
+    color: gray;
+    text-justify: distribute;
+
+    &.blur{
+      filter: blur(1px);
+    }
+  }
+
+
+  .status-info{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+  }
+
+  .completed{
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    .wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      .inner{
+        z-index: 5;
+      }
+
+      .result{
+        z-index: 5;
+
+        .success{
+          background-color: #478e0e;
+          color: white;
+        }
+      }
+
+      .points{
+        position: absolute;
+        z-index: 5;
+        bottom: 4px;
+        right: 4px;
+        font-size: smaller;
+        color: gray;
+      }
+
+      .blurred-background{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        background-color: rgba(225, 225, 225, 0.5);
+        filter: blur(2px);
+        overflow: hidden;
+      }
+    }
+  }
+
+  .progress-bar{
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+  }
+}
