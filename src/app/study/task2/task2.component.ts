@@ -17,11 +17,16 @@ export class Task2Component implements OnInit {
   }
 
   ngOnInit() {
-    // this.taskService.isTaskCorrect(this.task.taskId).subscribe( status => {
-    //   this.setState(status);
-    //
-    //   console.log(`id = ${this.task.taskId},TaskState: ${TaskState[this.state]}, service resp = ${status}`);
-    // });
+
+    this.taskService.fetchTask(this.task.taskId).subscribe( t => {
+      this.task = t;
+    });
+
+    this.taskService.isTaskCorrect(this.task.taskId).subscribe( status => {
+      this.setState(status);
+
+      console.log(`id = ${this.task.taskId},TaskState: ${TaskState[this.state]}, service resp = ${status}`);
+    });
   }
 
   run(): void {

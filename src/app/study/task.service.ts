@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {progress, task} from "../routes";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {pluck, scan, shareReplay, tap} from "rxjs/operators";
+import {find, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
+import {TaskModel} from '../models';
 
 @Injectable()
 export class TaskService {
@@ -12,6 +14,8 @@ export class TaskService {
     scan((total, current) => ({...total, ...current}), {}),
     shareReplay(1)
   );
+  private tasksSubject = new Subject<TaskModel>();
+  private $tasks: Observable<TaskModel> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -27,9 +31,11 @@ export class TaskService {
     );
   }
 
-  saveTaskCode(taskId: number, code: string): Observable<any> {
-    const data: SaveTaskModel = {taskId, code};
-    return this.http.post(task, data);
+  fetchTasks(list: TaskModel[]) {
+    return of(...list).pipe(
+      mergeMap(t => this.getTask(`${t.taskId}`)),
+      toArray()
+    );
   }
 
   getTask(id: string) {
@@ -43,8 +49,17 @@ export class TaskService {
 
   isTaskCorrect(id: number) {
     return this.progress$.pipe(
-      pluck(id)
+      pluck(id),
+      tap( (t) => console.log(t))
     )
+  }
+
+  fetchTask(taskId: number) {
+    return this.$tasks
+      .pipe(
+        find((t: TaskModel) => t.taskId === taskId),
+        tap(t => console.log(t))
+        );
   }
 }
 
