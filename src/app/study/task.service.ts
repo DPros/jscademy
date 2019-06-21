@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {progress, task} from '../routes';
-import {BehaviorSubject, from, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, from, Observable, of, ReplaySubject, Subject} from 'rxjs';
 import {pluck, scan, shareReplay, tap} from 'rxjs/operators';
-import {filter, find, first, map, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
+import {distinctUntilChanged, filter, find, first, map, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
 import {TaskModel} from '../models';
 
 @Injectable()
@@ -21,7 +21,6 @@ export class TaskService {
   }
 
   saveTask(taskId: number, code: string, correct?: boolean) {
-    console.log(`save task id=${taskId}, code=${code}, correct=${correct}`);
     const data: SaveTaskModel = {taskId, code, correct};
     this.http.post(task, data).pipe(
       tap(() => {
@@ -34,13 +33,14 @@ export class TaskService {
 
   private updateTask(t: SaveTaskModel): void {
     const arr = [... this.tasksSubject.getValue()];
-    const el = arr.find(x => t.taskId === x.taskId);
+    const index = arr.findIndex(x => t.taskId === x.taskId);
 
-    if (el) {
+    if (index !== -1) {
+      const el = {...arr[index]};
       el.correct = t.correct;
       el.code = t.code;
+      arr[index] = el;
     }
-
     this.tasksSubject.next(arr);
   }
 
@@ -70,7 +70,8 @@ export class TaskService {
 
         return local;
       }),
-      tap((x: TaskModel) => this.addTask(x))
+      toArray(),
+      tap(tasks => this.tasksSubject.next(tasks))
     );
   }
 
@@ -79,8 +80,7 @@ export class TaskService {
       .pipe(
         map( (res: TaskResultModel) => {
           return {...res, taskId: id};
-        }),
-        tap(x => console.log(x))
+        })
       );
   }
 
@@ -98,10 +98,8 @@ export class TaskService {
   fetchTask(taskId: number) {
     return this.$tasks
       .pipe(
-        tap(console.log),
-        switchMap((tasks: TaskModel[]) => from(tasks)),
-        first(t => t.taskId === taskId),
-        tap(console.log)
+        mergeMap((tasks: TaskModel[]) => from(tasks)),
+        filter(x => x.taskId === taskId)
         );
   }
 }

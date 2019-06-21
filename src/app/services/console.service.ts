@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {TaskModel} from '../models';
 import {TaskService} from '../study/task.service';
+import {shareReplay} from 'rxjs/internal/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class ConsoleService {
-  private task = new BehaviorSubject(null);
-  private clear = new BehaviorSubject(null);
+  private currentTask: TaskModel;
+  private task = new ReplaySubject<TaskModel>(1);
   private code = new BehaviorSubject('');
   private result = new BehaviorSubject([]);
-  private oldCode = '';
-
-  public readonly $clearTextEditor: Observable<any> = this.clear.asObservable();
   public readonly $code: Observable<string> = this.code.asObservable();
   public readonly $task: Observable<TaskModel> = this.task.asObservable();
   public readonly $result: Observable<ConsoleMessage[]> = this.result.asObservable();
@@ -28,33 +26,32 @@ export class ConsoleService {
   }
 
   public save(code: string, taskId: number = null, evaluate: boolean = null) {
-    console.log(`code:${code} taskId=${taskId} evaluate=${evaluate}`);
-    const task = this.task.getValue();
+    const task = this.currentTask;
     if (taskId) {
       if (evaluate) {
         const success = this.isCorrect(code, task.solution);
         this.taskService.saveTask(taskId, code, success);
+        this.cancelTask();
       } else {
         this.taskService.saveTask(taskId, code);
-        this.code.next(this.oldCode);
       }
 
     }
   }
 
   public setTask(task: TaskModel): void {
-    this.oldCode = this.code.getValue();
     this.task.next(task);
-  }
-
-
-  public clearEditor(): void {
-    this.oldCode = '';
-    this.clear.next(null);
+    this.currentTask = task;
   }
 
   public cancelTask(): void {
     this.task.next(null);
+    this.currentTask = null;
+  }
+
+  public setCode(code: string): void {
+    if (!this.currentTask)
+      this.code.next(code);
   }
 
   private isCorrect(code: string, solution: string): boolean {
