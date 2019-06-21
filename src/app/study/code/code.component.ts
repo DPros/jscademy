@@ -11,4 +11,15 @@ export class CodeComponent{
   @Input()
   code: CodeModel;
 
+
+  lines(code: CodeModel) {
+    let result = 3;
+    if (code.code) {
+      const lines = code.code.split('\n').length + 1;
+      if (lines > result ) {
+        result = lines;
+      }
+    }
+    return result;
+  }
 }
