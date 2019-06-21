@@ -17,9 +17,13 @@
       </div>
     </div>
     <div class="developer-panel">
-      <app-active-task class="task-container">task</app-active-task>
-      <app-code-editor class="code-editor-container">code-editor</app-code-editor>
-      <app-console class="console-container">console</app-console>
+      <app-active-task
+        *ngIf="($activeTask | async) as activeTask"
+        [task]="activeTask"
+        @activeTaskState
+        class="task-container"></app-active-task>
+      <app-code-editor class="code-editor-container"></app-code-editor>
+      <app-console class="console-container"></app-console>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -28,9 +28,9 @@ export class ConsoleService {
   }
 
   public save(code: string, taskId: number = null, evaluate: boolean = null) {
-
+    console.log(`code:${code} taskId=${taskId} evaluate=${evaluate}`);
     const task = this.task.getValue();
-    if (task && taskId && task.taskId === taskId) {
+    if (taskId) {
       if (evaluate) {
         const success = this.isCorrect(code, task.solution);
         this.taskService.saveTask(taskId, code, success);
@@ -51,6 +51,10 @@ export class ConsoleService {
   public clearEditor(): void {
     this.oldCode = '';
     this.clear.next(null);
+  }
+
+  public cancelTask(): void {
+    this.task.next(null);
   }
 
   private isCorrect(code: string, solution: string): boolean {

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {progress, task} from "../routes";
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {pluck, scan, shareReplay, tap} from "rxjs/operators";
-import {find, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {progress, task} from '../routes';
+import {BehaviorSubject, from, Observable, of, Subject} from 'rxjs';
+import {pluck, scan, shareReplay, tap} from 'rxjs/operators';
+import {filter, find, first, map, mergeMap, switchMap, toArray} from 'rxjs/internal/operators';
 import {TaskModel} from '../models';
 
 @Injectable()
@@ -14,32 +14,74 @@ export class TaskService {
     scan((total, current) => ({...total, ...current}), {}),
     shareReplay(1)
   );
-  private tasksSubject = new Subject<TaskModel>();
-  private $tasks: Observable<TaskModel> = this.tasksSubject.asObservable();
+  private tasksSubject = new BehaviorSubject<TaskModel[]>([]);
+  private $tasks: Observable<TaskModel[]> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
   saveTask(taskId: number, code: string, correct?: boolean) {
+    console.log(`save task id=${taskId}, code=${code}, correct=${correct}`);
     const data: SaveTaskModel = {taskId, code, correct};
-    return this.http.post(task, data).pipe(
+    this.http.post(task, data).pipe(
       tap(() => {
-        if (typeof correct === "boolean") {
-          this.progressSubject.next({[taskId]: correct})
+        if (typeof correct === 'boolean') {
+          this.progressSubject.next({[taskId]: correct});
         }
       })
-    );
+    ).subscribe(() => this.updateTask(data));
+  }
+
+  private updateTask(t: SaveTaskModel): void {
+    const arr = [... this.tasksSubject.getValue()];
+    const el = arr.find(x => t.taskId === x.taskId);
+
+    if (el) {
+      el.correct = t.correct;
+      el.code = t.code;
+    }
+
+    this.tasksSubject.next(arr);
+  }
+
+  private addTask(t: TaskModel): void {
+    const arr = [... this.tasksSubject.getValue()];
+    const index = arr.findIndex(x => t.taskId === x.taskId);
+
+    if (index !== -1) {
+      arr.splice(index, 1);
+    }
+
+    arr.push({...t});
+
+    this.tasksSubject.next(arr);
   }
 
   fetchTasks(list: TaskModel[]) {
     return of(...list).pipe(
-      mergeMap(t => this.getTask(`${t.taskId}`)),
-      toArray()
+      mergeMap(t => this.getTask(t.taskId)),
+      map(t => {
+        const local = list.find(x => x.taskId === t.taskId);
+
+        if (local) {
+          local.code = t.code;
+          local.correct = t.correct;
+        }
+
+        return local;
+      }),
+      tap((x: TaskModel) => this.addTask(x))
     );
   }
 
-  getTask(id: string) {
-    return this.http.get<TaskResultModel>(task, {params: new HttpParams().append("taskId", id)})
+  getTask(id: number) {
+    return this.http.get<TaskResultModel>(task, {params: new HttpParams().append('taskId', `${id}`)})
+      .pipe(
+        map( (res: TaskResultModel) => {
+          return {...res, taskId: id};
+        }),
+        tap(x => console.log(x))
+      );
   }
 
   loadProgress(): void {
@@ -50,15 +92,16 @@ export class TaskService {
   isTaskCorrect(id: number) {
     return this.progress$.pipe(
       pluck(id),
-      tap( (t) => console.log(t))
-    )
+    );
   }
 
   fetchTask(taskId: number) {
     return this.$tasks
       .pipe(
-        find((t: TaskModel) => t.taskId === taskId),
-        tap(t => console.log(t))
+        tap(console.log),
+        switchMap((tasks: TaskModel[]) => from(tasks)),
+        first(t => t.taskId === taskId),
+        tap(console.log)
         );
   }
 }

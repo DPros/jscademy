@@ -28,10 +28,9 @@ export interface TaskModel extends LessonItemInterface {
   taskId: number;
   type: "task";
   task: string;
-  initialCode?: string;
   code?: string;
   solution: any;
-  solutionCode?: any;
+  correct?: boolean | null | undefined;
 }
 
 export interface ImageModel extends LessonItemInterface {

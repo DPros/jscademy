@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TaskModel} from '../../models';
 import {TaskService} from '../task.service';
 import {isBoolean} from 'util';
+import {ConsoleService} from '../../services/console.service';
 
 @Component({
   selector: 'app-task2',
@@ -13,41 +14,38 @@ export class Task2Component implements OnInit {
   state: TaskState = TaskState.NEW;
   State = TaskState;
 
-  constructor(private taskService: TaskService) {
+  constructor(private taskService: TaskService, private consoleService: ConsoleService) {
   }
 
   ngOnInit() {
 
     this.taskService.fetchTask(this.task.taskId).subscribe( t => {
       this.task = t;
+      this.setState(this.task.correct);
+      console.log(`id = ${this.task.taskId},TaskState: ${TaskState[this.state]}, service resp = ${this.task.correct}`);
     });
 
-    this.taskService.isTaskCorrect(this.task.taskId).subscribe( status => {
-      this.setState(status);
-
-      console.log(`id = ${this.task.taskId},TaskState: ${TaskState[this.state]}, service resp = ${status}`);
+    this.consoleService.$task.subscribe( t => {
+      if (!t || t.taskId !== this.task.taskId) {
+        this.setState(this.task.correct);
+      }
     });
   }
 
   run(): void {
     this.state = TaskState.ACTIVE;
-    // TODO run service to start task
+    this.consoleService.setTask(this.task);
   }
 
   resume(): void {
     this.run();
   }
 
-  isActive(): boolean {
-    return false;
-  }
 
   private setState(status: boolean | undefined): void {
-    if (status === undefined) {
+    if (status === undefined || status === null) {
       if (this.task.code) {
         this.state = TaskState.PAUSED;
-      } else if (this.isActive()) {
-        this.state = TaskState.ACTIVE;
       } else {
         this.state = TaskState.NEW;
       }
