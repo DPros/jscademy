@@ -29,7 +29,7 @@ export class MaterialsService {
       .pipe(
         mergeMap(lesson => lesson.items.filter(item => item.type === 'task')),
         toArray(),
-        switchMap((tasks: TaskModel[]) => this.taskService.fetchTasks(tasks))
+        mergeMap((tasks: TaskModel[]) => this.taskService.fetchTasks(tasks))
       ).subscribe();
 
   }
