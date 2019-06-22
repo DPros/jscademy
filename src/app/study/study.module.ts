@@ -18,6 +18,8 @@ import { ConsoleComponent } from './console/console.component';
 import { ActiveTaskComponent } from './active-task/active-task.component';
 import { Task2Component } from './task2/task2.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ContentStructureComponent } from './content-structure/content-structure.component';
+
 const routes: Routes = [
   {
     path: "study", component: StudyComponent, canActivate: [AuthGuard], children: [
@@ -39,6 +41,7 @@ const routes: Routes = [
     ConsoleComponent,
     ActiveTaskComponent,
     Task2Component,
+    ContentStructureComponent
   ],
   imports: [
     AceEditorModule,

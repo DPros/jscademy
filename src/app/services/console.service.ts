@@ -92,6 +92,9 @@ export class ConsoleService {
     return new ComputedResult(result, resultMessages);
   }
 
+  private cleanFromLogs(code: string): string {
+    return code.replace(/console.(log|error|warn)\([\s'"\w\d_.,]*\)/, '');
+  }
 }
 
 class ComputedResult {

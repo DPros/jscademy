@@ -22,3 +22,14 @@ export const taskStateTrigger = trigger('taskState', [
   ])
 ]);
 
+export const structureStateTrigger = trigger('structureState', [
+  transition(':leave', [
+    style({  opacity: 1, height: '*' }),
+    animate('300ms ease-out', style({ opacity: 0 , height: 0 }))
+  ]),
+  // transition(':enter', [
+  //   style({  opacity: 0, height: 0}),
+  //   animate('300ms ease-out', style({ opacity: 1, height: '*' }))
+  // ])
+]);
+

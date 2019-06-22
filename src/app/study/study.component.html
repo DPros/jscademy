@@ -3,12 +3,8 @@
                [opened]="true"
                [fixedInViewport]="true"
                [fixedTopGap]="64"
-               class="sidenav"
-  >
-    <ul>
-      <li routerLink="/study/3">Массивы</li>
-      <li routerLink="/study/2">Part 2</li>
-    </ul>
+               class="sidenav">
+    <app-content-structure [currentSectionId]="sectionId"></app-content-structure>
   </mat-sidenav>
   <mat-sidenav-content class="book-container">
     <div class="book-content">
