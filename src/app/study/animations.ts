@@ -12,10 +12,10 @@ export const activeTaskStateTrigger = trigger('activeTaskState', [
 ]);
 
 export const taskStateTrigger = trigger('taskState', [
-  transition(':leave', [
-    style({  opacity: 1 }),
-    animate('500ms ease-in', style({ opacity: 0 }))
-  ]),
+  // transition(':leave', [
+  //   style({  opacity: 1 }),
+  //   animate('500ms ease-in', style({ opacity: 0 }))
+  // ]),
   transition(':enter', [
     style({  opacity: 0}),
     animate('500ms ease-out', style({ opacity: 1 }))

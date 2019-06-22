@@ -29,7 +29,6 @@ export class SectionComponent implements OnInit {
 
     this.next$ = combineLatest(this.studyService.getStructure(), this.route.params.pipe(pluck('sectionId')))
       .pipe(
-        tap(console.log),
         map( ([structure, currentSection])  => {
                   const sectionIndex = structure.findIndex(x => x.sectionId === +currentSection);
 
