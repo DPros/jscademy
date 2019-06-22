@@ -3,6 +3,15 @@
   <app-lesson *ngFor="let lesson of (section).lessons"
               [lesson]="lesson"
   ></app-lesson>
+  <div class="next-section-container" *ngIf="(next$ | async) as nextSection">
+    <!--<div class="next-section-name">-->
+      <!---->
+    <!--</div>-->
+    <button mat-flat-button class="next-button" color="primary"
+            [routerLink]="'/study/' + nextSection.sectionId">
+      Next | {{nextSection.title}}
+    </button>
+  </div>
 </ng-container>
 
 <ng-template #sectionNotFound>
