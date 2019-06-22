@@ -25,6 +25,6 @@ export class StudyComponent implements OnInit {
 
     this.route.firstChild.params.pipe(
       pluck('sectionId'),
-      tap(console.log)).subscribe( id => this.sectionId = id);
+    ).subscribe( id => this.sectionId = id);
   }
 }

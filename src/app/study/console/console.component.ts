@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ConsoleMessageType, ConsoleService} from '../../services/console.service';
 import {skip} from 'rxjs/internal/operators';
 
@@ -8,13 +8,13 @@ import {skip} from 'rxjs/internal/operators';
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.less']
 })
-export class ConsoleComponent implements OnInit {
+export class ConsoleComponent implements  AfterViewInit {
   Type = ConsoleMessageType;
   data = [];
   code = '';
-  constructor(private consoleService: ConsoleService) { }
+  constructor(private consoleService: ConsoleService, private renderer: Renderer2) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.consoleService.$result.pipe(skip(1)).subscribe(result => {
       this.code = '';
       this.data.unshift(...result);

@@ -58,30 +58,24 @@ export class TaskService {
   }
 
   fetchTasks(list: TaskModel[]) {
-    return of(...list).pipe(
-      mergeMap(t => this.getTask(t.taskId)),
-      map(t => {
-        const local = list.find(x => x.taskId === t.taskId);
+    const ids = list.map(t => t.taskId).join();
+    return this.http.get<SaveTaskModel[]>(task, {params: new HttpParams().append('taskId', `${ids}`)}).pipe(
+      map((ts: SaveTaskModel[]) => {
+        return list.map((t: TaskModel) => {
+          const result: SaveTaskModel = ts.find(x => x.taskId === t.taskId);
 
-        if (local) {
-          local.code = t.code;
-          local.correct = t.correct;
-        }
+          if (result) {
+            t.code = result.code;
+            t.correct = result.correct;
+          }
 
-        return local;
+          return t;
+        });
       }),
-      toArray(),
-      tap(tasks => this.tasksSubject.next(tasks))
+      tap((tasks: TaskModel[]) => {
+        this.tasksSubject.next(tasks);
+      })
     );
-  }
-
-  getTask(id: number) {
-    return this.http.get<TaskResultModel>(task, {params: new HttpParams().append('taskId', `${id}`)})
-      .pipe(
-        map( (res: TaskResultModel) => {
-          return {...res, taskId: id};
-        })
-      );
   }
 
   loadProgress(): void {
@@ -112,9 +106,4 @@ export interface SaveTaskModel {
   taskId: number;
   code: string;
   correct?: boolean;
-}
-
-export interface TaskResultModel {
-  correct: boolean | null;
-  code: string;
 }

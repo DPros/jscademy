@@ -12,7 +12,7 @@ import {TaskService} from '../study/task.service';
 export class MaterialsService {
 
   private sectionContent = new ReplaySubject<ContentSection>(1);
-  public readonly $sectionContent = this.sectionContent.asObservable().pipe(tap(console.log));
+  public readonly $sectionContent = this.sectionContent.asObservable();
 
   constructor(private http: HttpClient, private taskService: TaskService) {
   }

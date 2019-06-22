@@ -1,4 +1,4 @@
-<h3>{{lesson.title}}</h3>
+<h3 [id]="lesson.title">{{lesson.title}}</h3>
 <ng-container *ngFor="let lessonItem of lesson.items"
               [ngSwitch]="lessonItem.type"
 >
