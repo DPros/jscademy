@@ -16,6 +16,12 @@ export interface TextModel extends LessonItemInterface {
 export interface CodeModel extends LessonItemInterface {
   type: "code";
   code: string;
+  items: CodeItem[];
+}
+
+export interface CodeItem {
+  code: string;
+  result?: string;
 }
 
 export interface TaskModel extends LessonItemInterface {
@@ -24,6 +30,7 @@ export interface TaskModel extends LessonItemInterface {
   task: string;
   code?: string;
   solution: any;
+  correct?: boolean | null | undefined;
 }
 
 export interface ImageModel extends LessonItemInterface {

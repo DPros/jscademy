@@ -16,6 +16,9 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { ConsoleComponent } from './console/console.component';
 import { ActiveTaskComponent } from './active-task/active-task.component';
+import { Task2Component } from './task2/task2.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ContentStructureComponent } from './content-structure/content-structure.component';
 
 const routes: Routes = [
   {
@@ -37,6 +40,8 @@ const routes: Routes = [
     CodeEditorComponent,
     ConsoleComponent,
     ActiveTaskComponent,
+    Task2Component,
+    ContentStructureComponent
   ],
   imports: [
     AceEditorModule,
@@ -44,7 +49,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatSidenavModule,
     ScrollDispatchModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule
   ],
   providers: [
     TaskService

@@ -1,0 +1,18 @@
+[
+  {
+    "sectionId": 1,
+    "title": "Что такое JavaScript?"
+  },
+  {
+    "sectionId": 2,
+    "title": "Типы данных и переменные"
+  },
+  {
+    "sectionId": 3,
+    "title": "Массивы"
+  },
+  {
+    "sectionId": 4,
+    "title": "Объекты"
+  }
+]
