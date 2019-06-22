@@ -5,7 +5,7 @@ import { Timestamp } from "../models";
 import { ActivatedRoute, Router } from "@angular/router";
 
 const TOKEN = 'token';
-
+const USER_NAME = 'name';
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
@@ -24,6 +24,7 @@ export class AuthService {
         })
           .subscribe(response => {
             if (response) {
+              sessionStorage.setItem(USER_NAME, response.name);
               sessionStorage.setItem(TOKEN, response.token);
               this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
               resolve(true);
@@ -38,8 +39,13 @@ export class AuthService {
   }
 
   logout() {
+    sessionStorage.removeItem(USER_NAME);
     sessionStorage.removeItem(TOKEN);
     this.router.navigate(['']);
+  }
+
+  get userName() {
+    return sessionStorage.getItem(USER_NAME);
   }
 
   getToken() {

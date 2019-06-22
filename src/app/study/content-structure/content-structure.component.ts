@@ -12,13 +12,17 @@ import {Observable} from 'rxjs';
 export class ContentStructureComponent implements OnInit {
   @Input() currentSectionId: number;
   sections = [];
-  $sectionContent: Observable<ContentSection> = this.materialsService.$sectionContent
+  sectionContent: ContentSection;
   constructor(private materialsService: MaterialsService) { }
 
   ngOnInit() {
 
     this.materialsService.getStructure().subscribe((sections: ContentSection[]) => {
       this.sections = sections;
+    });
+
+    this.materialsService.$sectionContent.subscribe( section => {
+      this.sectionContent = section;
     });
   }
 

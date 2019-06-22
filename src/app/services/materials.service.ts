@@ -20,7 +20,8 @@ export class MaterialsService {
   getSection(name: string): Observable<SectionModel> {
     return this.http.get<SectionModel>(`/assets/content/${name}.json`).pipe(
       tap((section: SectionModel) => {
-        this.retrieveSectionContent(section, +name);
+        section.id = +name;
+        this.retrieveSectionContent(section);
         this.retrieveTasks(section);
       }),
       catchError(() => of(undefined))
@@ -42,9 +43,9 @@ export class MaterialsService {
 
   }
 
-  retrieveSectionContent(section: SectionModel, id: number) {
+  retrieveSectionContent(section: SectionModel) {
     const content = new ContentSection();
-    content.sectionId = id;
+    content.sectionId = section.id;
     content.title = section.title;
     content.lessons = section.lessons.map(l => ({title: l.title}));
     this.sectionContent.next(content);

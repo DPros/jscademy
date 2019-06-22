@@ -5,7 +5,7 @@
         [routerLink]="'/study/'+section.sectionId">
       {{section.title}}
     </div>
-    <ng-container  *ngIf="($sectionContent | async) as sectionContent">
+    <ng-container  *ngIf="sectionContent">
       <div *ngIf="sectionContent && currentSectionId && section.sectionId == currentSectionId && sectionContent.sectionId == section.sectionId"
            @structureState>
         <div class="lesson-title"
