@@ -1,4 +1,5 @@
 export interface SectionModel {
+  id?: number;
   title: string;
   lessons: LessonModel[];
 }
