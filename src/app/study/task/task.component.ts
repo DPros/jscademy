@@ -21,8 +21,8 @@ export class TaskComponent implements OnInit {
 
   startSolving() {
     this.solving = true;
-    this.taskService.getTask(this.task.taskId.toString())
-      .subscribe(({code}) => this.task.code = code);
+    this.taskService.fetchTask(this.task.taskId)
+      .subscribe( t => this.task = t);
   }
 
   run() {
@@ -33,7 +33,7 @@ export class TaskComponent implements OnInit {
 
     }
     const {taskId, code} = this.task;
-    this.taskService.saveTask(taskId, code, correct).subscribe();
+    this.taskService.saveTask(taskId, code, correct);
   }
 
   ngOnInit(): void {

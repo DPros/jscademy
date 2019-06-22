@@ -15,20 +15,20 @@ export class CodeEditorComponent implements OnInit {
   constructor(private consoleService: ConsoleService) { }
 
   ngOnInit() {
-    this.consoleService.$clearTextEditor
-      .subscribe(() => this.save());
 
     this.consoleService.$code.subscribe(code => {
-      this.save();
       this.code = code ? code : '';
     });
 
     this.consoleService.$task
-      .pipe(skipWhile(value => value == null))
       .subscribe(task => {
-        this.save();
-        this.code = task.code;
-        this.taskId = task.taskId;
+        if (task) {
+          this.code = task.code;
+          this.taskId = task.taskId;
+        } else {
+          this.code = '';
+          this.taskId = null;
+        }
       });
   }
 
@@ -44,9 +44,11 @@ export class CodeEditorComponent implements OnInit {
 
   cancelTask(): void {
     this.save();
+    this.consoleService.cancelTask();
   }
 
   evaluate(): void {
     this.consoleService.save(this.code, this.taskId, true);
+    this.consoleService.cancelTask();
   }
 }

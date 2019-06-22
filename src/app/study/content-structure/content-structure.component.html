@@ -1,0 +1,18 @@
+
+<div class="structure">
+  <div *ngFor="let section of sections" class="section">
+    <div class="section-title" [class.active]="section.sectionId == currentSectionId"
+        [routerLink]="'/study/'+section.sectionId">
+      {{section.title}}
+    </div>
+    <ng-container  *ngIf="($sectionContent | async) as sectionContent">
+      <div *ngIf="sectionContent && currentSectionId && section.sectionId == currentSectionId && sectionContent.sectionId == section.sectionId"
+           @structureState>
+        <div class="lesson-title"
+             *ngFor="let lesson of sectionContent.lessons">
+          {{lesson.title}}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

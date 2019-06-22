@@ -1,12 +1,36 @@
 
 <div class="console-wrapper">
   <div class="console-container">
-    <div *ngFor="let d of data; let f = first">
-      <ng-container *ngIf="d">
-        <span class="caret"
-              [class.last-curret]="d===f"
-        > > </span> {{d}}
-      </ng-container>
+    <div class="output-per-run">
+      <div class="caret">
+        >
+      </div>
+      <input type="text" class="code-input" [value]="code" (input)="code = $event.target.value" #input (keydown)="run($event)" [autofocus]="true"/>
+    </div>
+    <div *ngFor="let d of data" [ngSwitch]="d.type" class="output-per-run">
+      <div class="caret">
+        >
+      </div>
+      <div *ngSwitchCase="Type.ERROR" class="error">
+        {{d.value}}
+      </div>
+      <div *ngSwitchCase="Type.LOG" class="log">
+        {{d.value}}
+      </div>
+      <div *ngSwitchCase="Type.RESULT" class="result">
+        <div *ngIf="!d.value; else result">
+          <div *ngIf="d.value === undefined">
+            undefined
+          </div>
+          <div *ngIf="d.value === null">
+            null
+          </div>
+        </div>
+
+        <ng-template #result >
+          {{d.value}}
+        </ng-template>
+      </div>
     </div>
   </div>
 </div>

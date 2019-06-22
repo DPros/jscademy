@@ -7,8 +7,19 @@ import {AceEditorComponent} from 'ng2-ace-editor';
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.less']
 })
-export class CodeComponent{
+export class CodeComponent {
   @Input()
   code: CodeModel;
 
+
+  lines(code: CodeModel) {
+    let result = 3;
+    if (code.code) {
+      const lines = code.code.split('\n').length ;
+      if (lines > result ) {
+        result = lines;
+      }
+    }
+    return result;
+  }
 }
